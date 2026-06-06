@@ -231,10 +231,8 @@
                             <figcaption class="cap">Training rewards &mdash; motion tubules color-coded by reward value</figcaption>
                         </figure>
                         <figure class="tile">
-                            <!-- TODO: replace with Figure 5 (TaskNPoint space coverage) -->
-                            <img src="static/images/space_coverage.png"
-                                 alt="TaskNPoint workspace coverage across motions"
-                                 loading="lazy">
+                            <video src="static/images/tasknpoint_tennis_motion_ranges.mov"
+                                   muted playsinline autoplay loop preload="metadata"></video>
                             <figcaption class="cap">TaskNPoint space coverage across motions</figcaption>
                         </figure>
                     </div>
@@ -250,6 +248,10 @@
             gap: 16px;
             align-items: start;
         }
+        .media-row.three-col {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        @media (max-width: 800px) { .media-row.three-col { grid-template-columns: 1fr; } }
         .tile { display: flex; flex-direction: column; gap: .5rem; margin: 0; }
         .tile img, .tile video {
             width: 100%;
@@ -280,11 +282,23 @@
                             placement on the Unitree G1 humanoid.
                         </p>
                     </div>
-                    <!-- TODO: replace with Figure 6 qualitative results grid image -->
-                    <img src="static/images/qualitative_results.png"
-                         alt="Qualitative results: tennis backhand, forehand, soccer kick, box pickup"
-                         style="max-width:100%; height:auto; border-radius:12px;"
-                         loading="lazy">
+                    <div class="media-row three-col mt-4" role="group" aria-label="Qualitative results videos">
+                        <figure class="tile">
+                            <video src="static/images/tennis_combos.mp4"
+                                   muted playsinline autoplay loop preload="metadata"></video>
+                            <figcaption class="cap">Tennis</figcaption>
+                        </figure>
+                        <figure class="tile">
+                            <video src="static/images/soccer_combos.mp4"
+                                   muted playsinline autoplay loop preload="metadata"></video>
+                            <figcaption class="cap">Soccer</figcaption>
+                        </figure>
+                        <figure class="tile">
+                            <video src="static/images/box_pickup_combo.mp4"
+                                   muted playsinline autoplay loop preload="metadata"></video>
+                            <figcaption class="cap">Box pickup</figcaption>
+                        </figure>
+                    </div>
                 </div>
             </div>
         </div>
