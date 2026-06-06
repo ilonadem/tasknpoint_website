@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="TaskNPoint: How to Teach Your Humanoid to Hit a Backhand in Minutes">
+    <meta name="keywords" content="TaskNPoint, humanoid robot, reinforcement learning, locomotion, manipulation, tennis, soccer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TaskNPoint: How to Teach Your Humanoid to Hit a Backhand in Minutes</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title">TaskNPoint</h1>
+                        <h1 class="title is-1 publication-title">How to Teach Your Humanoid to Hit a Backhand in Minutes</h1>
+
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">
+                                <a href="TODO_blake_werner_url" target="_blank" rel="noopener noreferrer">Blake Werner</a>,</span>
+                            <span class="author-block">
+                                <a href="TODO_ilona_demler_url" target="_blank" rel="noopener noreferrer">Ilona Demler</a>,</span>
+                            <span class="author-block">
+                                <a href="TODO_pietro_perona_url" target="_blank" rel="noopener noreferrer">Pietro Perona</a>,</span>
+                            <span class="author-block">
+                                <a href="TODO_aaron_ames_url" target="_blank" rel="noopener noreferrer">Aaron D. Ames</a></span>
+                        </div>
+
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">Caltech</span>
+                        </div>
+
+                        <!-- <p class="subtitle is-4 has-text-grey-dark has-text-weight-semibold mt-2">
+                            CoRL 2026
+                        </p> -->
+
+                        <div class="column has-text-centered">
+                            <div class="publication-links">
+                                <!-- PDF Link -->
+                                <span class="link-block">
+                                    <a href="#"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </span>
+                                        <span>Paper</span>
+                                    </a>
+                                </span>
+                                <!-- arXiv Link -->
+                                <span class="link-block">
+                                    <a href="#"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="ai ai-arxiv"></i>
+                                        </span>
+                                        <span>arXiv</span>
+                                    </a>
+                                </span>
+                                <!-- Code Link -->
+                                <span class="link-block">
+                                    <a href="#"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fab fa-github"></i>
+                                        </span>
+                                        <span>Code</span>
+                                    </a>
+                                </span>
+                                <!-- Video Link -->
+                                <span class="link-block">
+                                    <a href="#"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fas fa-video"></i>
+                                        </span>
+                                        <span>Video</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== TL;DR ===================== -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="content has-text-centered">
+                    <p>
+                        <b>tl;dr</b> A simple, tuning-free recipe for teaching humanoids to perform dynamic skills.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== TEASER VIDEO ===================== -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <video src="static/images/tasknpoint_edited_2.mp4"
+                   muted playsinline autoplay loop preload="metadata"
+                   style="width:100%; border-radius:12px; display:block;"></video>
+        </div>
+    </section>
+
+    <!-- ===================== ABSTRACT ===================== -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Abstract</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            How do humans learn to hit a tennis backhand? Not from a thousand demonstrations or
+                            watching TV, we work with a coach and practice. We argue this is also the right recipe
+                            for teaching dynamic skills to humanoid robots. This follows from a structural property
+                            of such skills: success depends on learning to perform a handful of distinctive actions
+                            and, for each, perfecting a short crucial portion of the trajectory that decides the
+                            outcome (for a backhand, the approximately 20 cm of racket travel when ball contact
+                            happens), while morphology and physics determine the rest. We introduce TaskNPoint,
+                            which makes this division of labor explicit. The 'coach' contributes four irreducibly
+                            human inputs: the goal, a discrete taxonomy of skills, one demonstration per skill,
+                            and identification of the crucial sub-trajectory that determines the outcome. Physics
+                            and reinforcement learning in simulation fill in the trajectory and provide robustness
+                            to unmodeled events &ndash; crucially, randomized target sampling during training lets
+                            a single demonstration generalize zero-shot to goal locations never demonstrated.
+                            We test this approach on a Unitree G1 humanoid that hits forehands and backhands
+                            against balls thrown unpredictably by a human, kicks soccer balls passed similarly
+                            unpredictably, and pick-and-places boxes from novel locations. We find that learning
+                            is successful from a short human video demonstration and under an hour of training on
+                            a single GPU, with no per-task reward tuning and no new demonstration per target.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== METHOD ===================== -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full-width">
+                    <h2 class="title is-3">Method</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            TaskNPoint is a real-to-sim-to-real pipeline with four stages.
+                            <b>(1) Human Pose Reconstruction.</b> We collect monocular (or multi-view) video of a
+                            human coach demonstrating each skill and recover 3D SMPL-X body pose estimates using
+                            PromptHMR. For in-the-wild multi-view footage we fuse per-camera estimates into a
+                            maximum-likelihood consensus pose to suppress depth-axis drift.
+                            <b>(2) TaskNPoint Abstraction.</b> We kinematically retarget the human motion to the
+                            robot morphology with GMR, then annotate the single contact frame (e.g., racket&ndash;ball
+                            impact) to extract the nominal 3D target point <i>p*</i>, target velocity <i>&nu;*</i>,
+                            and target orientation <i>n*</i>. This compact goal tuple &mdash; one point per skill
+                            &mdash; is the only task-specific information the policy receives.
+                            <b>(3) RL Policy.</b> We train a single goal-conditioned PPO policy in MJlab
+                            simulation. Target points are randomized around the nominal during training so a single
+                            demonstration generalizes zero-shot to novel goal locations.
+                            <b>(4) Deployment.</b> An OptiTrack motion-capture system estimates the incoming
+                            object trajectory in real time; a Kalman filter and hybrid dynamics model forward-propagate
+                            the trajectory, and the nearest motion class is selected via a Voronoi partition over
+                            the workspace.
+                        </p>
+                    </div>
+                    <!-- TODO: replace with pipeline overview figure (Figure 2 from paper) -->
+                    <img src="static/images/method.png"
+                         alt="TaskNPoint pipeline overview"
+                         style="max-width:100%; height:auto; border-radius:12px;"
+                         loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== TASK ABSTRACTION ===================== -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full-width">
+                    <h2 class="title is-3">TaskNPoint Abstraction</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            The central abstraction of TaskNPoint is to represent a dynamic skill as a spatial and
+                            temporal goal <b>G = {(p*, &nu;*, n*, t*)}</b>: a 3D contact point, a target velocity
+                            scalar, a target orientation axis, and a time window around the moment of interaction.
+                            Rewards for position, velocity, and orientation are applied exclusively within this
+                            phase window, keeping the reward signal sharp and avoiding the reward-density collapse
+                            that occurs when the window is wide. A speed-agnostic phase variable &tau;(t) &isin;
+                            [0,&thinsp;1] allows the same demonstration to be executed at different speeds by
+                            simply varying the frame rate &mdash; no new annotation is required.
+                        </p>
+                        <p>
+                            By sampling target points from a Gaussian around the nominal contact point during
+                            training, each demonstration covers a 3D workspace volume (one standard deviation in
+                            each axis). Multiple demonstrations tile the full reachable workspace, as shown in the
+                            space-coverage figure below. This lets a small library of motions support a wide range
+                            of real-world goal locations without any additional data collection.
+                        </p>
+                    </div>
+
+                    <!-- 2-up row: training rewards figure + space coverage figure -->
+                    <div class="media-row mt-4" role="group" aria-label="TaskNPoint abstraction figures">
+                        <figure class="tile">
+                            <video src="static/images/sim_tennis.mp4"
+                                   muted playsinline autoplay loop preload="metadata"></video>
+                            <figcaption class="cap">Training rewards &mdash; motion tubules color-coded by reward value</figcaption>
+                        </figure>
+                        <figure class="tile">
+                            <!-- TODO: replace with Figure 5 (TaskNPoint space coverage) -->
+                            <img src="static/images/space_coverage.png"
+                                 alt="TaskNPoint workspace coverage across motions"
+                                 loading="lazy">
+                            <figcaption class="cap">TaskNPoint space coverage across motions</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .media-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            align-items: start;
+        }
+        .tile { display: flex; flex-direction: column; gap: .5rem; margin: 0; }
+        .tile img, .tile video {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            border-radius: 12px;
+            display: block;
+        }
+        .tile .cap {
+            text-align: center;
+            font-size: .95rem;
+            color: #6b7280;
+        }
+        @media (max-width: 800px) { .media-row { grid-template-columns: 1fr; } }
+    </style>
+
+    <!-- ===================== QUALITATIVE RESULTS ===================== -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full-width">
+                    <h2 class="title is-3">Qualitative Results</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            TaskNPoint proposes to abstract dynamic tasks as a 3D conditioning point and motion
+                            phase window, making the policy robust to novel incoming trajectories in deployment.
+                            Below we show successful execution of tennis motions, soccer kicks, and box pickup and
+                            placement on the Unitree G1 humanoid.
+                        </p>
+                    </div>
+                    <!-- TODO: replace with Figure 6 qualitative results grid image -->
+                    <img src="static/images/qualitative_results.png"
+                         alt="Qualitative results: tennis backhand, forehand, soccer kick, box pickup"
+                         style="max-width:100%; height:auto; border-radius:12px;"
+                         loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SIMULATION RESULTS ===================== -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full-width">
+                    <h2 class="title is-3">Simulation Results</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            We compare TaskNPoint against state-of-the-art methods on two tasks: ballistic hitting
+                            (tennis forehand/backhand) and cargo pickup (box pick-and-place). We report success
+                            rate (SR), generalized success rate (GSR) on novel trajectories, and target position
+                            error <i>e<sub>b</sub></i>. TaskNPoint achieves the highest GSR across both tasks
+                            and the lowest target position error, demonstrating superior generalization.
+                        </p>
+                    </div>
+
+                    <div class="table-container mt-4">
+                        <table class="table is-fullwidth is-striped is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Method</th>
+                                    <th colspan="3" class="has-text-centered">Ballistic Hitting</th>
+                                    <th colspan="3" class="has-text-centered">Cargo Pickup</th>
+                                </tr>
+                                <tr>
+                                    <th class="has-text-right">SR&uarr;</th>
+                                    <th class="has-text-right">GSR&uarr;</th>
+                                    <th class="has-text-right"><i>e<sub>b</sub></i> (m)&darr;</th>
+                                    <th class="has-text-right">SR&uarr;</th>
+                                    <th class="has-text-right">GSR&uarr;</th>
+                                    <th class="has-text-right"><i>e<sub>b</sub></i> (cm)&darr;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>SkillMimic</td>
+                                    <td class="has-text-right">68.2%</td>
+                                    <td class="has-text-right">30.9%</td>
+                                    <td class="has-text-right">0.48</td>
+                                    <td class="has-text-right">0.4%</td>
+                                    <td class="has-text-right">0.0%</td>
+                                    <td class="has-text-right">28.3</td>
+                                </tr>
+                                <tr>
+                                    <td>OmniRetarget</td>
+                                    <td class="has-text-right">75.8%</td>
+                                    <td class="has-text-right">20.4%</td>
+                                    <td class="has-text-right">0.15</td>
+                                    <td class="has-text-right">0.0%</td>
+                                    <td class="has-text-right">0.0%</td>
+                                    <td class="has-text-right">13.3</td>
+                                </tr>
+                                <tr>
+                                    <td>HDMI</td>
+                                    <td class="has-text-right">90.0%</td>
+                                    <td class="has-text-right">25.3%</td>
+                                    <td class="has-text-right">0.07</td>
+                                    <td class="has-text-right">95.8%</td>
+                                    <td class="has-text-right">1.8%</td>
+                                    <td class="has-text-right">13.1</td>
+                                </tr>
+                                <tr>
+                                    <td>XMimic</td>
+                                    <td class="has-text-right"><strong>100%</strong></td>
+                                    <td class="has-text-right">90.6%</td>
+                                    <td class="has-text-right">0.09</td>
+                                    <td class="has-text-right">99.3%</td>
+                                    <td class="has-text-right">96.3%</td>
+                                    <td class="has-text-right">8.67</td>
+                                </tr>
+                                <tr class="tnp-row">
+                                    <td><strong>TaskNPoint (Ours)</strong></td>
+                                    <td class="has-text-right has-text-weight-bold">99.5%</td>
+                                    <td class="has-text-right has-text-weight-bold">93.0%</td>
+                                    <td class="has-text-right has-text-weight-bold">0.02</td>
+                                    <td class="has-text-right has-text-weight-bold">100.0%</td>
+                                    <td class="has-text-right has-text-weight-bold">98.0%</td>
+                                    <td class="has-text-right has-text-weight-bold">4.85</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .table tbody tr.tnp-row { background-color: #c7d2fe; }
+        .table.is-striped tbody tr.tnp-row:nth-child(odd),
+        .table.is-striped tbody tr.tnp-row:nth-child(even) { background-color: #c7d2fe; }
+        .table.is-hoverable tbody tr.tnp-row:hover { background-color: #a5b4fc; }
+    </style>
+
+    <!-- ===================== HARDWARE RESULTS ===================== -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full-width">
+                    <h2 class="title is-3">Hardware Results</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            We deploy our controller on a 27-DoF Unitree G1 humanoid, running the policy onboard
+                            at 50 Hz and receiving OptiTrack ball position estimates via Ethernet. The robot
+                            successfully returns balls thrown at 5&ndash;10 m/s and placed up to 2 m laterally.
+                            Performance degrades gracefully with ball speed, and the robot never falls even on
+                            missed hits &mdash; a robustness property we attribute to the abstraction. Box pickup
+                            failures were exclusively due to imperfect grasps, not policy failure.
+                        </p>
+                    </div>
+
+                    <div class="table-container mt-4">
+                        <table class="table is-fullwidth is-striped is-hoverable" style="max-width:480px; margin:auto;">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="has-text-centered">Tennis SR</th>
+                                    <th class="has-text-centered">Soccer SR</th>
+                                    <th class="has-text-centered">Box SR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Slow (0&ndash;4 m/s)</td>
+                                    <td class="has-text-centered">1.00</td>
+                                    <td class="has-text-centered">1.00</td>
+                                    <td class="has-text-centered">0.60</td>
+                                </tr>
+                                <tr>
+                                    <td>Fast (4&ndash;8 m/s)</td>
+                                    <td class="has-text-centered">0.45</td>
+                                    <td class="has-text-centered">0.70</td>
+                                    <td class="has-text-centered">n/a</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="has-text-grey is-size-7 mt-2">Success rates over 20 trials per condition.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== RELATED LINKS ===================== -->
+    <section class="section" id="references">
+        <div class="container is-max-desktop content">
+            <h2 class="title is-3">Related Links</h2>
+            <ol class="references-list">
+                <li><a href="https://arxiv.org/abs/2505.03729" target="_blank" rel="noopener noreferrer">VideoMimic &mdash; Visual imitation enables contextual humanoid control</a></li>
+                <li><a href="https://arxiv.org/abs/2509.16757" target="_blank" rel="noopener noreferrer">HDMI &mdash; Learning interactive humanoid whole-body control from human videos</a></li>
+                <li><a href="https://arxiv.org/abs/2509.26633" target="_blank" rel="noopener noreferrer">OmniRetarget &mdash; Interaction-preserving data generation for humanoid loco-manipulation</a></li>
+                <li><a href="https://arxiv.org/abs/2603.12686" target="_blank" rel="noopener noreferrer">LATENT &mdash; Learning athletic humanoid tennis skills from imperfect human motion data</a></li>
+                <li><a href="https://arxiv.org/abs/2508.21043" target="_blank" rel="noopener noreferrer">HITTER &mdash; A humanoid table tennis robot via hierarchical planning and learning</a></li>
+                <li><a href="https://arxiv.org/abs/2602.02473" target="_blank" rel="noopener noreferrer">HumanX &mdash; Toward agile and generalizable humanoid interaction skills from human videos</a></li>
+                <li><a href="https://arxiv.org/abs/1804.02717" target="_blank" rel="noopener noreferrer">DeepMimic &mdash; Example-guided deep reinforcement learning of physics-based character skills</a></li>
+                <li><a href="https://arxiv.org/abs/2508.08241" target="_blank" rel="noopener noreferrer">BeyondMimic &mdash; From motion tracking to versatile humanoid control via guided diffusion</a></li>
+            </ol>
+        </div>
+    </section>
+
+    <style>
+        .references-list { padding-left: 1.25rem; }
+        .references-list li { margin-bottom: .4rem; }
+    </style>
+
+    <!-- ===================== BIBTEX ===================== -->
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+            <h2 class="title">BibTeX</h2>
+            <pre><code>@inproceedings{tasknpoint2026,
+    author    = {Werner, Blake and Demler, Ilona and Perona, Pietro and Ames, Aaron D.},
+    title     = {TaskNPoint: How to Teach Your Humanoid to Hit a Backhand in Minutes},
+    booktitle = {10th Conference on Robot Learning (CoRL 2026)},
+    year      = {2026},
+}</code></pre>
+        </div>
+    </section>
+
+</body>
+
+</html>
