@@ -37,13 +37,13 @@
 
                         <div class="is-size-5 publication-authors">
                             <span class="author-block">
-                                <a href="TODO_blake_werner_url" target="_blank" rel="noopener noreferrer">Blake Werner</a>,</span>
+                                <a href="https://x.com/bwerner43" target="_blank" rel="noopener noreferrer">Blake Werner</a>,</span>
                             <span class="author-block">
-                                <a href="TODO_ilona_demler_url" target="_blank" rel="noopener noreferrer">Ilona Demler</a>,</span>
+                                <a href="https://ilonademler.com/" target="_blank" rel="noopener noreferrer">Ilona Demler</a>,</span>
                             <span class="author-block">
-                                <a href="TODO_pietro_perona_url" target="_blank" rel="noopener noreferrer">Pietro Perona</a>,</span>
+                                <a href="https://www.vision.caltech.edu/" target="_blank" rel="noopener noreferrer">Pietro Perona</a>,</span>
                             <span class="author-block">
-                                <a href="TODO_aaron_ames_url" target="_blank" rel="noopener noreferrer">Aaron D. Ames</a></span>
+                                <a href="http://ames.caltech.edu/" target="_blank" rel="noopener noreferrer">Aaron D. Ames</a></span>
                         </div>
 
                         <div class="is-size-5 publication-authors">
@@ -86,16 +86,6 @@
                                         <span>Code</span>
                                     </a>
                                 </span>
-                                <!-- Video Link -->
-                                <span class="link-block">
-                                    <a href="#"
-                                        class="external-link button is-normal is-rounded is-dark">
-                                        <span class="icon">
-                                            <i class="fas fa-video"></i>
-                                        </span>
-                                        <span>Video</span>
-                                    </a>
-                                </span>
                             </div>
                         </div>
 
@@ -135,24 +125,27 @@
                     <h2 class="title is-3">Abstract</h2>
                     <div class="content has-text-justified">
                         <p>
-                            How do humans learn to hit a tennis backhand? Not from a thousand demonstrations or
-                            watching TV, we work with a coach and practice. We argue this is also the right recipe
-                            for teaching dynamic skills to humanoid robots. This follows from a structural property
-                            of such skills: success depends on learning to perform a handful of distinctive actions
-                            and, for each, perfecting a short crucial portion of the trajectory that decides the
-                            outcome (for a backhand, the approximately 20 cm of racket travel when ball contact
-                            happens), while morphology and physics determine the rest. We introduce TaskNPoint,
-                            which makes this division of labor explicit. The 'coach' contributes four irreducibly
-                            human inputs: the goal, a discrete taxonomy of skills, one demonstration per skill,
-                            and identification of the crucial sub-trajectory that determines the outcome. Physics
-                            and reinforcement learning in simulation fill in the trajectory and provide robustness
-                            to unmodeled events &ndash; crucially, randomized target sampling during training lets
-                            a single demonstration generalize zero-shot to goal locations never demonstrated.
-                            We test this approach on a Unitree G1 humanoid that hits forehands and backhands
-                            against balls thrown unpredictably by a human, kicks soccer balls passed similarly
-                            unpredictably, and pick-and-places boxes from novel locations. We find that learning
-                            is successful from a short human video demonstration and under an hour of training on
-                            a single GPU, with no per-task reward tuning and no new demonstration per target.
+                            How do we learn to hit a tennis backhand? Not from a thousand hours of tennis
+                            tournaments on TV &mdash; we work with a coach and practice. We argue this is
+                            also the right recipe for teaching dynamic skills to humanoid robots. This follows
+                            from a structural property of dynamic skills: the outcome is decided by a short,
+                            crucial portion of the trajectory &mdash; for a backhand, the &sim;20cm of racket
+                            travel around ball contact. Getting this interaction window right requires
+                            coordinating the whole motion, so that control, physics, and morphology act in
+                            concert. Learning thus reduces to mastering a handful of distinct actions and, for
+                            each, practicing until the window comes out right. To this end, we introduce
+                            TaskNPoint, a training protocol which makes the coach-learner division of labor
+                            explicit. The human coach contributes four inputs: a discrete set of skills
+                            (e.g. different tennis shots), one demonstration per skill, identification of the
+                            interaction window, the goal (e.g. ball placement). Learning in a physically
+                            realistic simulation environment fills in the trajectory of each action and
+                            provides robustness to unmodeled events. Crucially, randomized target sampling
+                            during training lets a single demonstration generalize zero-shot to unseen goal
+                            locations. We test this approach on a Unitree G1 humanoid that hits forehands
+                            and backhands against balls thrown by a human, kicks incoming soccer balls, and
+                            picks and places boxes from novel locations. We find that learning is successful
+                            from a short human video demonstration and under an hour of training on a single
+                            GPU, with no per-task reward tuning and no new demonstration per target.
                         </p>
                     </div>
                 </div>
@@ -166,6 +159,12 @@
             <div class="columns is-centered has-text-centered">
                 <div class="column is-full-width">
                     <h2 class="title is-3">Method</h2>
+                    <img src="static/images/architecture_fig_3.png"
+                         alt="TaskNPoint pipeline overview"
+                         style="max-width:100%; height:auto; border-radius:12px;"
+                         loading="lazy">
+                    <figcaption class="cap">TaskNPoint Overview</figcaption>
+                    <figcaption class="cap"> </figcaption>
                     <div class="content has-text-justified">
                         <p>
                             TaskNPoint is a real-to-sim-to-real pipeline with four stages.
@@ -188,10 +187,11 @@
                         </p>
                     </div>
                     <!-- TODO: replace with pipeline overview figure (Figure 2 from paper) -->
-                    <img src="static/images/method.png"
-                         alt="TaskNPoint pipeline overview"
-                         style="max-width:100%; height:auto; border-radius:12px;"
+                    <img src="static/images/technical_architecture_2.png"
+                         alt="Policy Architecture"
+                         style="max-width:90%; height:auto; border-radius:12px;"
                          loading="lazy">
+                    <figcaption class="cap">Policy Architecture</figcaption>
                 </div>
             </div>
         </div>
@@ -205,21 +205,51 @@
                     <h2 class="title is-3">TaskNPoint Abstraction</h2>
                     <div class="content has-text-justified">
                         <p>
-                            The central abstraction of TaskNPoint is to represent a dynamic skill as a spatial and
-                            temporal goal <b>G = {(p*, &nu;*, n*, t*)}</b>: a 3D contact point, a target velocity
-                            scalar, a target orientation axis, and a time window around the moment of interaction.
-                            Rewards for position, velocity, and orientation are applied exclusively within this
-                            phase window, keeping the reward signal sharp and avoiding the reward-density collapse
-                            that occurs when the window is wide. A speed-agnostic phase variable &tau;(t) &isin;
-                            [0,&thinsp;1] allows the same demonstration to be executed at different speeds by
-                            simply varying the frame rate &mdash; no new annotation is required.
+                            <b>Intuition.</b>
+                            Consider what a tennis player must do when returning an incoming ball. First, they must
+                            decide which shot to play &mdash; forehand, backhand, smash, or volley. This is a
+                            discrete choice from a finite vocabulary of actions. Second, once the shot is chosen,
+                            they must shape it depending on the incoming ball&rsquo;s speed, spin, and trajectory,
+                            and on the desired destination. Shaping includes the footwork, preparation, and
+                            follow-through that produce the desired impact quality &mdash; a choice within a
+                            continuum of possibilities. This gives a natural hierarchy: discrete action selection
+                            followed by continuous action shaping. TaskNPoint uses RL for shaping and a simple
+                            hand-designed policy for selection. The decomposition generalizes beyond tennis to
+                            ball kicking and box pick-and-place.
                         </p>
                         <p>
-                            By sampling target points from a Gaussian around the nominal contact point during
-                            training, each demonstration covers a 3D workspace volume (one standard deviation in
-                            each axis). Multiple demonstrations tile the full reachable workspace, as shown in the
-                            space-coverage figure below. This lets a small library of motions support a wide range
-                            of real-world goal locations without any additional data collection.
+                            For a given action (e.g. a backhand), four interrelated entities are at play:
+                            the <i>control</i>, the <i>trajectory</i>, the <i>interaction</i>, and the
+                            <i>goal</i>. Control drives the robot along a trajectory &mdash; a time sequence of
+                            joint configurations <i>q</i><sub>0:T</sub>. The end-effector&rsquo;s position and
+                            velocity at the moment of interaction (e.g. racket&ndash;ball contact) determine the
+                            outcome, which ideally meets the goal (e.g. ball placement). Thus <i>G</i> is a
+                            function of <i>J</i>, which is a function of <i>A</i>, which is a function of the
+                            control. Learning must invert this chain. TaskNPoint simplifies the problem by
+                            adopting impact quality as the goal &mdash; identifying
+                            <i>G</i>&nbsp;:=&nbsp;<i>J</i> &mdash; so only one map, from goal to trajectory,
+                            needs to be learned.
+                        </p>
+                        <p>
+                            <b>Formalization.</b>
+                            The teacher identifies the crucial moment in the demonstration: racket&ndash;ball
+                            contact in tennis, foot&ndash;ball contact in soccer, hand&ndash;box contact in
+                            pick-and-place. For a tennis shot, this interaction is parameterized by the time
+                            <i>t*</i>&nbsp;&isin;&nbsp;&#8477;, the 3D location
+                            <i>p*</i>&nbsp;&isin;&nbsp;&#8477;<sup>3</sup>, the velocity direction
+                            <i>&nu;*</i>&nbsp;&isin;&nbsp;&#8477;<sup>3</sup>, and the orientation
+                            <i>n*</i>&nbsp;&isin;&nbsp;S<sup>2</sup> of the racket at impact. The goal is the
+                            tuple <b>G* = (p*, &nu;*, n*, t*)</b>.
+                        </p>
+                        <p>
+                            One demonstration is enough to specify the shape of the motion, but not enough to
+                            handle the full range of incoming ball trajectories. To train a robust policy, target
+                            points are randomized during training: <i>p</i>&nbsp;~&nbsp;<i>N</i>(<i>p*</i>,
+                            &Sigma;), and similarly for <i>&nu;</i> and <i>n</i>. Position, velocity, and
+                            orientation rewards are averaged over a small phase window around impact,
+                            &Omega;&nbsp;=&nbsp;<i>t*</i>&nbsp;+&nbsp;(&minus;&delta;t,&nbsp;&delta;t), keeping
+                            the reward signal sharp. The full set of actions and nominal goals forms a motion
+                            library used to train the policy.
                         </p>
                     </div>
 
@@ -231,7 +261,7 @@
                             <figcaption class="cap">Training rewards &mdash; motion tubules color-coded by reward value</figcaption>
                         </figure>
                         <figure class="tile">
-                            <video src="static/images/tasknpoint_tennis_motion_ranges.mov"
+                            <video src="static/images/tasknpoint_tennis_motion_ranges_cropped.mp4"
                                    muted playsinline autoplay loop preload="metadata"></video>
                             <figcaption class="cap">TaskNPoint space coverage across motions</figcaption>
                         </figure>
@@ -276,10 +306,9 @@
                     <h2 class="title is-3">Qualitative Results</h2>
                     <div class="content has-text-justified">
                         <p>
-                            TaskNPoint proposes to abstract dynamic tasks as a 3D conditioning point and motion
-                            phase window, making the policy robust to novel incoming trajectories in deployment.
-                            Below we show successful execution of tennis motions, soccer kicks, and box pickup and
-                            placement on the Unitree G1 humanoid.
+                            We train TaskNPoint on a small set of reference demonstrations of
+                            tennis shots, soccer kicks, and box pick-and-place. By randomizing incoming target trajectories and
+                            positions, we are able to generalize to unseen target locations in deployment. 
                         </p>
                     </div>
                     <div class="media-row three-col mt-4" role="group" aria-label="Qualitative results videos">
@@ -326,7 +355,7 @@
                                 <tr>
                                     <th rowspan="2">Method</th>
                                     <th colspan="3" class="has-text-centered">Ballistic Hitting</th>
-                                    <th colspan="3" class="has-text-centered">Cargo Pickup</th>
+                                    <th colspan="3" class="has-text-centered">Box Pick-and-Place</th>
                                 </tr>
                                 <tr>
                                     <th class="has-text-right">SR&uarr;</th>
@@ -366,7 +395,7 @@
                                     <td class="has-text-right">13.1</td>
                                 </tr>
                                 <tr>
-                                    <td>XMimic</td>
+                                    <td>HumanX</td>
                                     <td class="has-text-right"><strong>100%</strong></td>
                                     <td class="has-text-right">90.6%</td>
                                     <td class="has-text-right">0.09</td>
@@ -408,7 +437,7 @@
                         <p>
                             We deploy our controller on a 27-DoF Unitree G1 humanoid, running the policy onboard
                             at 50 Hz and receiving OptiTrack ball position estimates via Ethernet. The robot
-                            successfully returns balls thrown at 5&ndash;10 m/s and placed up to 2 m laterally.
+                            successfully returns balls thrown at 4&ndash;8 m/s and placed up to 2 m laterally.
                             Performance degrades gracefully with ball speed, and the robot never falls even on
                             missed hits &mdash; a robustness property we attribute to the abstraction. Box pickup
                             failures were exclusively due to imperfect grasps, not policy failure.
@@ -476,7 +505,7 @@
             <pre><code>@inproceedings{tasknpoint2026,
     author    = {Werner, Blake and Demler, Ilona and Perona, Pietro and Ames, Aaron D.},
     title     = {TaskNPoint: How to Teach Your Humanoid to Hit a Backhand in Minutes},
-    booktitle = {10th Conference on Robot Learning (CoRL 2026)},
+    booktitle = {Under Review},
     year      = {2026},
 }</code></pre>
         </div>
